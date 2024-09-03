@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: #111111;
+        }
+        .rotating-thing {
+            --size: 90vmin;
+            --carousel-radius: calc(.5 * var(--size));
+            --item-radius: calc(.2 * var(--carousel-radius));
+            --pi: 3.1416;
+            --n: 12;
+            --delta: 0;
+            height: var(--size);
+            width: var(--size);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            clip-path: polygon(100% 0, 100% 30%, 50% 50%, 0 30%, 0 0);
+            >.item {
+                --index: 1;
+                --angle: calc(var(--delta) + 2 * var(--pi) * var(--index) / var(--n));
+                height: calc(2 * var(--item-radius));
+                width: calc(2 * var(--item-radius));
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform:
+                    translateX(calc(-50% + (var(--carousel-radius) - var(--item-radius)) * cos(var(--angle)))) translateY(calc(-50% + (var(--carousel-radius) - var(--item-radius)) * sin(var(--angle)))) rotate(calc(90deg + 180deg * var(--angle) / var(--pi)));
+                border-radius: 50%;
+                background: #333333;
+                color: #eeeeee;
+                font-size: calc(var(--item-radius));
+                &:nth-child(1) {--index: 1;}
+                &:nth-child(2) {--index: 2;}
+                &:nth-child(3) {--index: 3;}
+                &:nth-child(4) {--index: 4;}
+                &:nth-child(5) {--index: 5;}
+                &:nth-child(6) {--index: 6;}
+                &:nth-child(7) {--index: 7;}
+                &:nth-child(8) {--index: 8;}
+                &:nth-child(9) {--index: 9;}
+                &:nth-child(10) {--index: 10;}
+                &:nth-child(11) {--index: 11;}
+                &:nth-child(12) {--index: 12;}
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class='rotating-thing'>
+        <div class='item'>1</div>
+        <div class='item'>2</div>
+        <div class='item'>3</div>
+        <div class='item'>4</div>
+        <div class='item'>5</div>
+        <div class='item'>6</div>
+        <div class='item'>7</div>
+        <div class='item'>8</div>
+        <div class='item'>9</div>
+        <div class='item'>10</div>
+        <div class='item'>11</div>
+        <div class='item'>12</div>
+    </div>
+    <script>
+        const thing = document.querySelector('.rotating-thing');
+        let delta = 0;
+        function next() {
+            delta -= 0.01;
+            thing.style.setProperty('--delta', delta);
+            requestAnimationFrame(next);
+        }
+        requestAnimationFrame(next);
+    </script>
+</body>
+</html>
